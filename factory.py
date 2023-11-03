@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 
 class Functions(ABC):
     @abstractmethod
-    def ride(self, distance):
+    def ride(self, time):
         pass
 
     @abstractmethod
@@ -87,6 +87,20 @@ class AbsImprover(Functions):
         self.object.fueldat()
 
 
+class Nitro(AbsImprover):
+    def ride(self, time):
+        rashod_per_km = self._rashod / 100
+        distance = self._speed * time
+        if self.__fuel >= rashod_per_km * distance:
+            print(f'\tПроехали {distance}км, потратили {rashod_per_km * distance}л топлива')
+            self.__fuel -= rashod_per_km * distance
+        elif self.__fuel > 0:
+            print(f'\tПроехали {self.__fuel / rashod_per_km}км, потратили {self.__fuel}л топлива. Топлива больше нет')
+            self.__fuel = 0
+        else:
+            print('\tНет топлива')
+
+
 
 carfactory = Factory()
 print('Производим пикап')
@@ -110,5 +124,7 @@ car2.fueldat()
 car2.ride(2)
 car1.fueldat()
 
-
+car2 = Nitro(car2)
+car2.ride(2)
+car1.fueldat()
 
